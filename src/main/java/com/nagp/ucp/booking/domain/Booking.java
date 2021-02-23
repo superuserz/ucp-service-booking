@@ -15,13 +15,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nagp.ucp.common.enums.BookingStatusEnum;
 import com.nagp.ucp.common.enums.PaymentModeEnum;
 
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 @Entity
 @Table
-@ToString
-@NoArgsConstructor
 public class Booking {
 	/**
 	 * Unique identifier for a service
@@ -46,9 +41,11 @@ public class Booking {
 	/**
 	 * ID of the User to which service is assigned
 	 */
-	@Column
-	private int assigneeId;
+	@Column(nullable = true)
+	private Integer assigneeId;
 
+	@Column
+	private String assigneeName;
 	/**
 	 * Booking Status
 	 */
@@ -81,13 +78,18 @@ public class Booking {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp modifiedOn;
 
-	public Booking(int id, int serviceId, int userId, int assigneeId, String bookingStatus, String comment,
-			double serviceAmount, String paymentMode, Timestamp createdOn, Timestamp modifiedOn) {
+	public Booking() {
+		super();
+	}
+
+	public Booking(int id, int serviceId, int userId, int assigneeId, String assigneeName, String bookingStatus,
+			String comment, double serviceAmount, String paymentMode, Timestamp createdOn, Timestamp modifiedOn) {
 		super();
 		this.id = id;
 		this.serviceId = serviceId;
 		this.userId = userId;
 		this.assigneeId = assigneeId;
+		this.assigneeName = assigneeName;
 		this.bookingStatus = bookingStatus;
 		this.comment = comment;
 		this.serviceAmount = serviceAmount;
@@ -120,16 +122,24 @@ public class Booking {
 		this.userId = userId;
 	}
 
-	public int getAssigneeId() {
+	public Integer getAssigneeId() {
 		return assigneeId;
 	}
 
-	public void setAssigneeId(int assigneeId) {
+	public void setAssigneeId(Integer assigneeId) {
 		this.assigneeId = assigneeId;
 	}
 
+	public String getAssigneeName() {
+		return assigneeName;
+	}
+
+	public void setAssigneeName(String assigneeName) {
+		this.assigneeName = assigneeName;
+	}
+
 	public BookingStatusEnum getBookingStatus() {
-		return BookingStatusEnum.parse(this.bookingStatus);
+		return BookingStatusEnum.parse(bookingStatus);
 	}
 
 	public void setBookingStatus(final BookingStatusEnum bookingStatus) {
@@ -137,7 +147,7 @@ public class Booking {
 	}
 
 	public PaymentModeEnum getPaymentMode() {
-		return PaymentModeEnum.parse(this.paymentMode);
+		return PaymentModeEnum.parse(paymentMode);
 	}
 
 	public void setPaymentMode(PaymentModeEnum paymentMode) {
@@ -174,6 +184,14 @@ public class Booking {
 
 	public void setModifiedOn(Timestamp modifiedOn) {
 		this.modifiedOn = modifiedOn;
+	}
+
+	@Override
+	public String toString() {
+		return "Booking [id=" + id + ", serviceId=" + serviceId + ", userId=" + userId + ", assigneeId=" + assigneeId
+				+ ", assigneeName=" + assigneeName + ", bookingStatus=" + bookingStatus + ", comment=" + comment
+				+ ", serviceAmount=" + serviceAmount + ", paymentMode=" + paymentMode + ", createdOn=" + createdOn
+				+ ", modifiedOn=" + modifiedOn + "]";
 	}
 
 }
