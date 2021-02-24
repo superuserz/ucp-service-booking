@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +25,7 @@ public class Booking {
 	 */
 	@Id
 	@NonNull
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	/**
@@ -71,10 +73,12 @@ public class Booking {
 	private String paymentMode;
 
 	@Column
+	@CreationTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp createdOn;
 
 	@Column
+	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp modifiedOn;
 

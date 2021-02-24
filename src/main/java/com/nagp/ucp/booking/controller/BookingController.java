@@ -39,9 +39,10 @@ public class BookingController {
 
 	@PostMapping("/assign")
 	@ApiOperation(value = "Assign a worker to the Booking")
-	public void assignProvider(@RequestBody final AssignBookingRequest request) throws UCPException {
+	public BaseResponse<Void> assignProvider(@RequestBody final AssignBookingRequest request) throws UCPException {
 		LOGGER.info("Assign Booking : " + request.toString());
 		service.assignProvider(request);
+		return new BaseResponse<>();
 	}
 
 	@PostMapping("/status")
